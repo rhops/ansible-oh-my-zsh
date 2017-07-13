@@ -1,0 +1,14 @@
+---
+- name: check if .zshrc existing
+  stat:
+    path: "{{ oh_my_zsh_rc }}"
+  register: zshrc_path
+
+- name: backup .zshrc file
+  copy:
+    src: "{{ oh_my_zsh_rc }}"
+    dest: "{{ oh_my_zsh_rc }}.orig"
+    follow: yes
+    remote_src: True
+  when: zshrc_path.stat.exists
+  changed_when: False
